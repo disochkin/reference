@@ -146,6 +146,11 @@
           tbody.appendChild(row);
         }
 }
+
+
+        function closeForm() {
+            document.querySelector('modalEdit').remove();
+        }
   //table.addEventListener("dblclick", async (e) => {
       //const row = e.target.closest("tr");
       //if (!row) return;

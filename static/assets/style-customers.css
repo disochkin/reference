@@ -1,0 +1,67 @@
+.container-frame {
+    background-color: #ffffff;
+    border: 2px solid #cccccc; /* Рамка толщиной 2 пикселя серого цвета */
+    border-radius: 0px;       /* Скругленные углы */
+    padding: 1rem;             /* Внутренняя отступовка */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+    margin: 1rem auto;         /* Отступ сверху и снизу, центрирование по горизонтали */
+    max-width: 1200px;         /* Ограничиваем максимальную ширину */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.tile-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.tile-item {
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: calc((100% - 2 * 1rem)/1); /* Три колонки по умолчанию */
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tile-item h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.tile-item p {
+    font-size: 1em;
+    color: #666;
+}
+
+.tile-item img {
+    width: 50%;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 1em;
+}
+
+.tile-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

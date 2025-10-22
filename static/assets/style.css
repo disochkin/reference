@@ -10,6 +10,17 @@ body { font-family: sans-serif; }
       text-decoration: underline;
     }
 
+        button.close-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: red;
+            background: transparent;
+            border: none;
+        }
+
   .modal-form {
     width: max-content; /* Растягиваем по самому широкому объекту */
     margin-left: auto;
@@ -128,6 +139,7 @@ cursor: pointer;
 #pagination button:disabled {
 background-color: #ccc;
 cursor: not-allowed;
+
 
 
 
