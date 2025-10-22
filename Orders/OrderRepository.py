@@ -49,7 +49,7 @@ class OrderRepository:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Заявка с id={order_id} не найдена"
             )
-        
+
         total_sum = sum(item.price_per_unit * item.quantity for item in order.order_items)
 
         return OrderMapper.to_dto_response_tableEdit(order)
