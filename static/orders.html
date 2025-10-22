@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Список Заказов</title>
+    <link href="assets/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <nav>
+      <a href="equipment.html">Оборудование</a>
+      <a href="orders.html">Заказы</a>
+    </nav>
+</head>
+<body>
+<header>
+    Панель управления заказами
+</header>
+
+<main>
+    <div class="title">Список Заказов</div>
+    <button id="openModalBtn">Добавить заказ</button>
+
+    <!-- Модальное окно -->
+    <div class="modal-form" id="modalCreate">
+    <div class="modal-content">
+            <h3>Новый заказ</h3>
+            <select id="managerSelect"></select>
+            <select id="customerSelect"></select>
+            <button id="saveBtn">Сохранить</button>
+            <button id="closeModalBtn" style="margin-top:6px;background:#ccc;color:black;">Закрыть</button>
+        </div>
+    </div>
+
+    <table id="orderTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Заказчик</th>
+            <th>Отв.менеджер</th>
+            <th>Дата создания</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- данные будут подставлены из JS -->
+        </tbody>
+    </table>
+    <div id="pagination" style="margin-top: 10px; text-align: center;">
+        <button id="prevPage">⟨ Назад</button>
+        <span id="pageInfo"></span>
+        <button id="nextPage">Вперёд ⟩</button>
+    </div>
+
+<!-- Модальное окно редактирования -->
+    <div class="modal-form" id="modalEdit">
+    <div class="modal-content">
+
+        <h3>Редактировать заявку</h3>
+        <form id="editForm">
+            <label>Номер заявки:</label><br>
+            <input id="orderIdFormModal" type="text" readonly><br>
+            <label>Создано:</label><br>
+            <input id="orderCreatedFormModal" type="text" readonly><br>
+            <label>Покупатель:<br>
+                <input id="customerFormModal" type="text">
+            </label><br>
+            <label>Отв.менеджер:<br>
+                <input id="managerFormModal" type="text">
+            </label><br>
+            <label>Статус заявки:</label><br>
+            <input id="orderStatusFormModal" type="text" readonly>
+            <br><br>
+            <button type="submit">Сохранить</button>
+            <button onclick="closeModal()" type="button">Отмена</button>
+            <input type="hidden" id="orderId" value="1">
+
+
+
+
+
+
+
+    <label for="equipment">Оборудование:</label>
+    <select id="equipment" name="equipment_id" required>
+      <option value="">Выберите оборудование</option>
+    </select>
+
+    <label for="quantity">Количество:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required>
+
+    <label for="price">Цена за единицу:</label>
+    <input type="number" id="price" name="price_per_unit" step="0.01" required>
+
+    <button type="submit">Добавить</button>
+
+
+        </form>
+    </div>
+    </div>
+
+
+</main>
+
+<footer>
+    © 2025
+</footer>
+
+<script
+        src="assets/orders.js">
+</script>
+
+</body>
+</html>
