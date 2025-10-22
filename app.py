@@ -63,7 +63,7 @@ manager_repo = ManagerRepository(db)
 manager_controller = ManagerController(manager_repo)
 app.include_router(manager_controller.router)
 
-#init_db.init(db)
+init_db.init(db)
 # load_csv_to_db("import_data/managers.csv", Manager, db)
 # load_csv_to_db("import_data/suppliers.csv", Supplier, db)
 # load_csv_to_db("import_data/equipment.csv", Equipment, db)

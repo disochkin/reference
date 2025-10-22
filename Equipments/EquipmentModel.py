@@ -16,7 +16,7 @@ class Equipment(Base):
     supplier = relationship("Supplier", back_populates="equipment")
 
     # связь многие ко многим с заявками
-    #items  = relationship("OrderItem", back_populates="equipment")
+    order_items  = relationship("OrderItem", back_populates="equipment")
 
     def __init__(self, name: str, price: int, supplier_id: int):
         self.name = name

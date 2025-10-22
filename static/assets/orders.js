@@ -118,7 +118,7 @@
   async function openEditModal(id) {
       const modal = document.getElementById("modalEdit");
       // Загружаем данные с сервера
-      const res = await fetch(`/api/order/${id}`);
+      const res = await fetch(`/api/order/${id}/items`);
       const data = await res.json();
       document.getElementById("orderIdFormModal").value = data.id;
 
@@ -127,9 +127,25 @@
       document.getElementById("customerFormModal").value = data.customer_id;
       document.getElementById("managerFormModal").value = data.manager_id;
       modal.style.display = "block";
+      renderOrderItemTable(data);
+
     };
 
-
+      function renderOrderItemTable(_items) {
+        const tbody = document.querySelector("#orderItemTable tbody");
+        tbody.innerHTML = "";
+        for (const orderItem of _items.order_items) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${orderItem.id}</td>
+            <td>${orderItem.equipment.name}</td>
+            <td>${orderItem.price_per_unit}</td>
+            <td>${orderItem.quantity}</td>
+            <td>${orderItem.total_price}</td>
+          `
+          tbody.appendChild(row);
+        }
+}
   //table.addEventListener("dblclick", async (e) => {
       //const row = e.target.closest("tr");
       //if (!row) return;

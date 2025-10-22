@@ -38,6 +38,7 @@ class OrderRepository:
             )
         return order
 
+    #
     def get_order_by_id_with_items(self, order_id: int):  #"-> Optional[MediaSet]:
         order: Order = (self.db.query(Order)
                                        .options(joinedload(Order.manager))
@@ -50,7 +51,7 @@ class OrderRepository:
                 detail=f"Заявка с id={order_id} не найдена"
             )
 
-        total_sum = sum(item.price_per_unit * item.quantity for item in order.order_items)
+       # position_sum = sum(item.price_per_unit * item.quantity for item in order.order_items)
 
         return OrderMapper.to_dto_response_tableEdit(order)
 

@@ -2,7 +2,7 @@ import enum
 from datetime import datetime
 from typing import List
 
-from pydantic import BaseModel, field_serializer
+from pydantic import BaseModel, field_serializer, computed_field
 
 from Customers.CustomerDto import CustomerDtoShort
 from Managers.ManagerDto import ManagerDtoShort
@@ -28,6 +28,12 @@ class OrderDtoResponseFull(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+    @computed_field
+    @property
+    def total_amount(self) -> float:
+        """Рассчитываем общую сумму всех позиций заказа"""
+        return sum(item.total_price for item in self.order_items)
 
 class OrderDtoResponseTable(BaseModel):
     id: int

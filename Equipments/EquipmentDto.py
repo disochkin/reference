@@ -28,3 +28,9 @@ class EquipmentDtoResponseTable(BaseModel):
 class EquipmentUpdate(BaseModel):
     name: str | None = None
     price: float | None = None
+
+class EquipmentShortDescription(BaseModel):
+    name: str | None = None
+    model_config = {
+        "from_attributes": True
+    }

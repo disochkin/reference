@@ -1,3 +1,4 @@
+from pydantic.v1 import validator
 from sqlalchemy import Column, ForeignKey, Integer, Float, UniqueConstraint
 from sqlalchemy.orm import relationship
 
@@ -12,10 +13,10 @@ class OrderItem(Base):
 
     quantity = Column(Integer, nullable=False)
     price_per_unit = Column(Float, nullable=False)
-    total_price = Column(Float, nullable=False)
 
     order = relationship("Order", back_populates="order_items")
-    #equipment = relationship("Equipment", back_populates="order_items")
+
+    equipment = relationship("Equipment", back_populates="order_items")
 
     # уникальность 2х стобцов
     __table_args__ = (
@@ -27,4 +28,5 @@ class OrderItem(Base):
         self.equipment_id=equipment_id
         self.quantity=quantity
         self.price_per_unit=price_per_unit
-        self.total_price = quantity * price_per_unit
+
+

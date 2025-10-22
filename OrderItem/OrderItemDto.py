@@ -1,7 +1,10 @@
 import enum
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
+from pydantic.v1 import validator
+
+from Equipments.EquipmentDto import EquipmentShortDescription
 
 
 class OrderItemDtoCreate(BaseModel):
@@ -11,10 +14,15 @@ class OrderItemDtoCreate(BaseModel):
 
 class OrderItemDto(BaseModel):
     id: int
-    equipment_id: int
+    equipment: EquipmentShortDescription | None = None
     quantity: int
     price_per_unit: float
 
+    @computed_field
+    @property
+    def total_price(self) -> float:
+        """Вычисляет общую сумму строки заказа."""
+        return self.quantity * self.price_per_unit
     class Config:
         from_attributes = True  # вместо устаревшего from_orm=True
 

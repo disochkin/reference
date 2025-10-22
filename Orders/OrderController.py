@@ -47,7 +47,6 @@ class OrderController:
     def get_order_by_id_with_items(self,
                         order_id: int):
         order = self.repo.get_order_by_id_with_items(order_id)
-        print(order)
         return order
 
     # order_id: int
@@ -78,7 +77,7 @@ class OrderController:
             orderItem = self.repoItems.createOrderItem(orderItem)
             order = self.repo.get_order_by_id(orderItemDtoCreate.order_id)
             return order
-        except DuplicateOrderItemError as e:
+        except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
 
 

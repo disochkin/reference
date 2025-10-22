@@ -77,26 +77,33 @@
             <button onclick="closeModal()" type="button">Отмена</button>
             <input type="hidden" id="orderId" value="1">
 
+            <table id="orderItemTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Оборудование</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Сумма</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <!-- данные будут подставлены из JS -->
+            </tbody>
+            </table>
+            <label for="equipment">Оборудование:</label>
+            <select id="equipment" name="equipment_id" required>
+              <option value="">Выберите оборудование</option>
+            </select>
 
+            <label for="quantity">Количество:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
 
+            <label for="price">Цена за единицу:</label>
+            <input type="number" id="price" name="price_per_unit" step="0.01" required>
 
-
-
-
-    <label for="equipment">Оборудование:</label>
-    <select id="equipment" name="equipment_id" required>
-      <option value="">Выберите оборудование</option>
-    </select>
-
-    <label for="quantity">Количество:</label>
-    <input type="number" id="quantity" name="quantity" min="1" required>
-
-    <label for="price">Цена за единицу:</label>
-    <input type="number" id="price" name="price_per_unit" step="0.01" required>
-
-    <button type="submit">Добавить</button>
-
-
+            <button type="submit">Добавить</button>
         </form>
     </div>
     </div>
