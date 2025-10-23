@@ -117,6 +117,8 @@
 
   async function openEditModal(id) {
       const modal = document.getElementById("modalEdit");
+      const addEquipmentBtn = document.getElementById('addEquipmentBtnForm');
+
       // Загружаем данные с сервера
       const res = await fetch(`/api/order/${id}/items`);
       const data = await res.json();
@@ -124,11 +126,14 @@
 
       document.getElementById("orderCreatedFormModal").value = data.created_at;
 
-      document.getElementById("customerFormModal").value = data.customer_id;
-      document.getElementById("managerFormModal").value = data.manager_id;
+      document.getElementById("customerFormModal").value = data.customer.name;
+      document.getElementById("managerFormModal").value = data.manager.name;
+      document.getElementById("orderStatusFormModal").value = data.status;
+      document.getElementById("totalAmount").value = data.total_amount;
+
       modal.style.display = "block";
       renderOrderItemTable(data);
-
+      loadEquipment();
     };
 
       function renderOrderItemTable(_items) {
@@ -147,9 +152,74 @@
         }
 }
 
+     // загрузить список оборудования + цена
+      async function loadEquipment() {
+        const res = await fetch('/api/equipment');
+        const data = await res.json();
+        equipmentSelect = document.getElementById("equipmentSelectEditOrderForm");
+        price = document.getElementById("price")
+        equipmentSelect.innerHTML = '';
+        data.items.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = s.name;
+          equipmentSelect.appendChild(opt);
+        });
+      }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupPriceUpdater(document.getElementById('equipmentSelectEditOrderForm'), document.getElementById('price-field'));
+        });
+
+        // Передача селекторов DOM и продукта прямо в функцию
+        async function setupPriceUpdater(productSelect, priceField) {
+            const res = await fetch('/api/equipment');
+            const data = await res.json();
+            console.log(data.items);
+
+            productSelect.addEventListener('change', () => {
+                const selectedProductID = productSelect.value;
+                if (!selectedProductID) {
+                    priceField.textContent = '';
+                    return;
+                }
+              //  const selectedProduct = data[selectedProductID];
+               priceField.textContent = findPriceById(data.items, selectedProductID);
+            });
+        }
+
+
+        // Функция для поиска цены по id
+        function findPriceById(items, id) {
+            const item = items.find(item => item.id === id);
+            return item ? item.price : undefined;
+        }
+
+      addEquipmentBtn.onclick = async () => {
+                    const payload = {
+          equipment_id: parseInt(equipmentSelectEditOrderForm.value),
+          quantity: parseInt(orderIdFormModal.value),
+          order_id: parseInt(orderIdFormModal.value)
+        };
+
+      const res = await fetch('/api/order/add_item', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          alert('Позиция добавлена!');
+          location.reload();
+        } else {
+          alert('Ошибка при добавлении заявки');
+        }
+      };
+
+
 
         function closeForm() {
-            document.querySelector('modalEdit').remove();
+            const modal = document.getElementById('modalEdit');
+            modal.style.display = 'none'; // или другой способ сокрытия, если нужно
         }
   //table.addEventListener("dblclick", async (e) => {
       //const row = e.target.closest("tr");

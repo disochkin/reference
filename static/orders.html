@@ -71,13 +71,15 @@
             <label>Отв.менеджер:<br>
                 <input id="managerFormModal" type="text">
             </label><br>
+            <label>Сумма заказа:<br>
+                <input id="totalAmount" type="text" readonly>
+            </label><br>
             <label>Статус заявки:</label><br>
             <input id="orderStatusFormModal" type="text" readonly>
             <br><br>
             <button type="submit">Сохранить</button>
             <button onclick="closeModal()" type="button">Отмена</button>
             <input type="hidden" id="orderId" value="1">
-
             <table id="orderItemTable">
             <thead>
                 <tr>
@@ -93,18 +95,15 @@
             <!-- данные будут подставлены из JS -->
             </tbody>
             </table>
-            <label for="equipment">Оборудование:</label>
-            <select id="equipment" name="equipment_id" required>
-              <option value="">Выберите оборудование</option>
-            </select>
-
+            <label>Оборудование:</label>
+            <select id="equipmentSelectEditOrderForm" ></select>
             <label for="quantity">Количество:</label>
             <input type="number" id="quantity" name="quantity" min="1" required>
 
-            <label for="price">Цена за единицу:</label>
-            <input type="number" id="price" name="price_per_unit" step="0.01" required>
+            <label for="price-field">Цена за единицу:</label>
+            <input type="number" id="price-field" readonly>
 
-            <button type="submit">Добавить</button>
+            <button id="addEquipmentBtn">Добавить</button>
         </form>
     </div>
     </div>

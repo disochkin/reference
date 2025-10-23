@@ -22,18 +22,21 @@ class OrderDtoResponse(BaseModel):
 class OrderDtoResponseFull(BaseModel):
     id: int
     created_at: datetime
+    @field_serializer("created_at")
+    def serialize_created_at(self, value: datetime, _info):
+        return value.strftime("%Y-%m-%d %H:%M:%S")
     manager: ManagerDtoShort | None = None
     customer: CustomerDtoShort | None = None
     order_items: List[OrderItemDto] = []
-    model_config = {
-        "from_attributes": True
-    }
-
+    status: str
     @computed_field
     @property
     def total_amount(self) -> float:
         """Рассчитываем общую сумму всех позиций заказа"""
         return sum(item.total_price for item in self.order_items)
+    model_config = {
+        "from_attributes": True
+    }
 
 class OrderDtoResponseTable(BaseModel):
     id: int

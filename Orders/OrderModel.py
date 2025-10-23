@@ -31,7 +31,6 @@ class Order(Base):
     manager = relationship("Manager", back_populates="order")
     customer = relationship("Customer", back_populates="order")
 
-
     def __init__(self, manager_id: int, customer_id: int):
         self.manager_id = manager_id
         self.customer_id = customer_id

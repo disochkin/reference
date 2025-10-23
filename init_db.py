@@ -34,11 +34,11 @@ def init(db):
     db.commit()
     db.close()
 
-    customers = [Customer(name="покупатель 1",phone="35435455435",email="ejrerer@jejfoif.ru"),
-                 Customer(name="покупатель 2",phone="44565656566",email="ejrerer@jejfoif.ru"),
-                 Customer(name="покупатель 3",phone="88049580435",email="ejrerer@jejfoif.ru"),
-                 Customer(name="покупатель 4",phone="88049580435",email="ejrerer@jejfoif.ru"),
-                 Customer(name="покупатель 5",phone="88049580435",email="ejrerer@jejfoif.ru"),]
+    customers = [Customer(name="покупатель 1",person="ФИО Директора1",phone="35435455435",email="ejrerer@jejfoif.ru"),
+                 Customer(name="покупатель 2",person="ФИО Директора2",phone="44565656566",email="ejrerer@jejfoif.ru"),
+                 Customer(name="покупатель 3",person="ФИО Директора3",phone="88049580435",email="ejrerer@jejfoif.ru"),
+                 Customer(name="покупатель 4",person="ФИО Директора4",phone="88049580435",email="ejrerer@jejfoif.ru"),
+                 Customer(name="покупатель 5",person="ФИО Директора5",phone="88049580435",email="ejrerer@jejfoif.ru"),]
 
     db.add_all(customers)
     db.commit()

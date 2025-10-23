@@ -6,15 +6,20 @@ const entities = [
 ];
 
 // Функция для вывода плиток
-function renderTiles() {
+async function renderTiles() {
+    const res = await fetch(`/api/customer`);
+    const data = await res.json();
+    //document.getElementById("name").value = data.name;
+
+
     const container = document.querySelector('.tile-grid');
 
-    entities.forEach(entity => {
+    data.forEach(entity => {
         const tile = `
             <article class="tile-item">
-                <img src="${entity.imageUrl}" alt="${entity.title}">
-                <h2>${entity.title}</h2>
-                <p>${entity.description}</p>
+  //              <img src="${entity.imageUrl}" alt="${entity.title}">
+                <h2>${entity.name}</h2>
+              //  <p>${entity.description}</p>
             </article>
         `;
         container.insertAdjacentHTML('beforeend', tile);
