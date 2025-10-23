@@ -24,7 +24,7 @@
         <td>${item.status}</td>
         <td class="actions">
               <button onclick="openEditModal(${item.id})">✏️</button>
-              <button onclick="deleteEquipment(${item.id})">🗑</button>
+              <button onclick="deleteOrder(${item.id})">🗑</button>
         </td>
       `
       tbody.appendChild(row);
@@ -115,6 +115,37 @@
         }
       };
 
+
+  async function deleteOrder(id) {
+        if (!confirm("Вы действительно хотите удалить этот заказ?")) {
+        return; // пользователь нажал «Отмена»
+        }
+
+          try {
+            const response = await fetch(`/api/order/${id}`, { method: "DELETE" });
+
+            if (response.status === 200) {
+              // например, бекенд возвращает JSON с данными удалённого объекта
+              const data = await response.json();
+              alert(`Объект "${data.name}" (ID: ${data.id}) успешно удалён.`);
+              location.reload(); // можно обновить таблицу
+            }
+            else if (response.status === 409) {
+              const error = await response.text();
+              alert(`Невозможно удалить: ${error || "есть связанные записи."}`);
+            }
+            else {
+              alert(`Ошибка: ${response.status} ${response.statusText}`);
+            }
+          }
+          catch (err) {
+            alert("Ошибка сети: " + err.message);
+          }
+
+            };
+
+
+
   async function openEditModal(id) {
       const modal = document.getElementById("modalEdit");
       const addEquipmentBtn = document.getElementById('addEquipmentBtnForm');
@@ -132,11 +163,11 @@
       document.getElementById("totalAmount").value = data.total_amount;
 
       modal.style.display = "block";
-      renderOrderItemTable(data);
+      renderOrderItemTable(data.id, data);
       loadEquipment();
     };
 
-      function renderOrderItemTable(_items) {
+      function renderOrderItemTable(orderId, _items) {
         const tbody = document.querySelector("#orderItemTable tbody");
         tbody.innerHTML = "";
         for (const orderItem of _items.order_items) {
@@ -147,6 +178,10 @@
             <td>${orderItem.price_per_unit}</td>
             <td>${orderItem.quantity}</td>
             <td>${orderItem.total_price}</td>
+
+            <td class="actions">
+               <button onclick="deleteOrderItem(${orderId}, ${orderItem.id})">🗑</button>
+            </td>
           `
           tbody.appendChild(row);
         }
@@ -167,33 +202,33 @@
         });
       }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            setupPriceUpdater(document.getElementById('equipmentSelectEditOrderForm'), document.getElementById('price-field'));
-        });
+//        document.addEventListener('DOMContentLoaded', () => {
+//            setupPriceUpdater(document.getElementById('equipmentSelectEditOrderForm'), document.getElementById('price-field'));
+//        });
 
         // Передача селекторов DOM и продукта прямо в функцию
-        async function setupPriceUpdater(productSelect, priceField) {
-            const res = await fetch('/api/equipment');
-            const data = await res.json();
-            console.log(data.items);
-
-            productSelect.addEventListener('change', () => {
-                const selectedProductID = productSelect.value;
-                if (!selectedProductID) {
-                    priceField.textContent = '';
-                    return;
-                }
-              //  const selectedProduct = data[selectedProductID];
-               priceField.textContent = findPriceById(data.items, selectedProductID);
-            });
-        }
-
-
-        // Функция для поиска цены по id
-        function findPriceById(items, id) {
-            const item = items.find(item => item.id === id);
-            return item ? item.price : undefined;
-        }
+//        async function setupPriceUpdater(productSelect, priceField) {
+//            const res = await fetch('/api/equipment');
+//            const data = await res.json();
+//            console.log(data.items);
+//
+//            productSelect.addEventListener('change', () => {
+//                const selectedProductID = productSelect.value;
+//                if (!selectedProductID) {
+//                    priceField.textContent = '';
+//                    return;
+//                }
+//              //  const selectedProduct = data[selectedProductID];
+//               priceField.textContent = findPriceById(data.items, selectedProductID);
+//            });
+//        }
+//
+//
+//        // Функция для поиска цены по id
+//        function findPriceById(items, id) {
+//            const item = items.find(item => item.id === id);
+//            return item ? item.price : undefined;
+//        }
 
       addEquipmentBtn.onclick = async () => {
                     const payload = {
@@ -214,6 +249,34 @@
           alert('Ошибка при добавлении заявки');
         }
       };
+
+
+  async function deleteOrderItem(orderId, itemId) {
+        if (!confirm("Вы действительно хотите удалить эту позицию?")) {
+        return; // пользователь нажал «Отмена»
+        }
+          try {
+            const response = await fetch(`/api/order/${orderId}/items/${itemId}`, { method: "DELETE" });
+
+            if (response.status === 200) {
+              // например, бекенд возвращает JSON с данными удалённого объекта
+              const data = await response.json();
+              //alert(`Объект "${data.name}" (ID: ${data.id}) успешно удалён.`);
+              alert(`Объект успешно удалён.`);
+              location.reload(); // можно обновить таблицу
+            }
+            else if (response.status === 409) {
+              const error = await response.text();
+              alert(`Невозможно удалить: ${error || "есть связанные записи."}`);
+            }
+            else {
+              alert(`Ошибка: ${response.status} ${response.statusText}`);
+            }
+          }
+          catch (err) {
+            alert("Ошибка сети: " + err.message);
+          }
+        };
 
 
 

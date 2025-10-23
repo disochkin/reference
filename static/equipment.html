@@ -5,12 +5,12 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Список оборудования</title>
     <link href="assets/style.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="assets/favicon.png" rel="icon" type="image/png">
     <meta charset="UTF-8">
     <title>Модальное окно</title>
     <nav>
-      <a href="equipment.html">Оборудование</a>
-      <a href="orders.html">Заказы</a>
+        <a href="equipment.html">Оборудование</a>
+        <a href="orders.html">Заказы</a>
     </nav>
 </head>
 <body>
@@ -24,33 +24,33 @@
     <!-- Модальное окно -->
     <!-- Добавление оборудования-->
     <div class="modal-form" id="modalCreate">
-    <div class="modal-content">
-        <h3>Новое оборудование</h3>
-        <form id="createForm">
-            <input id="equipName" placeholder="Название" required type="text">
-            <input id="equipPrice" placeholder="Цена" required type="number">
-            <select id="supplierSelect"></select>
-            <button id="saveBtn">Сохранить</button>
-            <button type="button" onclick="closeAll()">Закрыть</button>
-        </form>
+        <div class="modal-content">
+            <h3>Новое оборудование</h3>
+            <form id="createForm">
+                <input id="equipName" placeholder="Название" required type="text">
+                <input id="equipPrice" placeholder="Цена" required type="number">
+                <select id="supplierSelect"></select>
+                <button id="saveBtn">Сохранить</button>
+                <button onclick="closeAll()" type="button">Закрыть</button>
+            </form>
 
-    </div>
+        </div>
     </div>
     <!-- Модальное окно редактирования -->
     <div class="modal-form" id="modalEdit">
         <div class="modal-content">
             <h3>Редактировать оборудование</h3>
-        <form id="editForm">
-            <input id="equipmentId" type="hidden">
-            <label>Название:<br>
-                <input id="equipmentName" type="text">
-            </label><br><br>
-            <label>Цена:<br>
-                <input id="equipmentPrice" step="0.01" type="number">
-            </label><br><br>
-            <button type="submit">Сохранить</button>
-            <button type="button" onclick="closeAll()">Закрыть</button>
-        </form>
+            <form id="editForm">
+                <input id="equipmentId" type="hidden">
+                <label>Название:<br>
+                    <input id="equipmentName" type="text">
+                </label><br><br>
+                <label>Цена:<br>
+                    <input id="equipmentPrice" step="0.01" type="number">
+                </label><br><br>
+                <button type="submit">Сохранить</button>
+                <button onclick="closeAll()" type="button">Закрыть</button>
+            </form>
         </div>
     </div>
 

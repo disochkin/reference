@@ -20,7 +20,7 @@ class Order(Base):
     # Обратная связь
     #order = relationship("Equipment", back_populates="purchase_requests")
 
-    order_items = relationship("OrderItem", back_populates="order")
+    order_items = relationship("OrderItem", back_populates="order",cascade="all, delete-orphan")
 
     # Внешний ключ на Customer
     customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)

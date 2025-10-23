@@ -33,6 +33,12 @@ class OrderController:
             "/add_item", self.add_item, methods=["POST"], response_model=None)
 
         self.router.add_api_route(
+            "/{order_id}", self.delete_order, methods=["DELETE"], response_model=None)
+
+        self.router.add_api_route(
+            "/{order_id}/items/{item_id}", self.delete_item, methods=["DELETE"], response_model=None)
+
+        self.router.add_api_route(
             "/discount/{customer_id}", self.get_discount, methods=["GET"])
 
     async def create_order(self, order: OrderDtoCreate):
@@ -58,6 +64,18 @@ class OrderController:
     # self.quantity = quantity
     # self.price_per_unit = price_per_unit <- достать из бд
     # self.total_price = quantity * price_per_unit
+
+    def delete_order(self, order_id):
+        success = self.repo.delete_order(order_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Заявка не найдена")
+        return {"deleted": True}
+
+    def delete_item(self, order_id, item_id):
+        success = self.repoItems.delete_item(item_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Позиция не найдена")
+        return {"deleted": True}
 
 
     def add_item(self,
@@ -89,6 +107,7 @@ class OrderController:
     def get_discount(self, customer_id):
         total_purchase = self.repo.total_purchase(customer_id)
         return total_purchase
+
 
 
     # def delete_media(self,

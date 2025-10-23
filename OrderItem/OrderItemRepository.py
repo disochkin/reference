@@ -49,6 +49,27 @@ class OrderItemRepository:
         orderItem: OrderItem = self.db.query(OrderItem).filter(OrderItem.order_id == order_id)
         return orderItem
 
+    def delete_item(self, item_id: int):
+        orderItem = self.db.query(OrderItem).filter(OrderItem.id == item_id).first()
+        if not orderItem:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"Позиция с id={item_id} не найдена")
+        try:
+            self.db.delete(orderItem)
+            self.db.commit()
+            return orderItem
+        except IntegrityError:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Невозможно удалить: есть связанные записи."
+            )
+        except Exception as e:
+            self.db.rollback()
+            raise ValueError("Неизвестная ошибка: ", str(e))
+
+
+
     # от позиций к заказам
     # def total_purchase(self, customer_id) -> float:
     #     total_purchase = (self.db.query(func.sum(OrderItem.quantity * OrderItem.price_per_unit))

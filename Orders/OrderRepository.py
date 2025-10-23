@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from typing import List, Optional
 
 from sqlalchemy import create_engine, Engine, func
@@ -39,6 +40,28 @@ class OrderRepository:
         return order
 
     #
+
+    def delete_order(self, order_id: int):
+        order = self.db.query(Order).filter(Order.id == order_id).first()
+        if not order:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"Заявка с id={order_id} не найдена")
+        try:
+            self.db.delete(order)
+            self.db.commit()
+            return order
+        except IntegrityError:
+            self.db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Невозможно удалить: есть связанные записи."
+            )
+        except Exception as e:
+            self.db.rollback()
+            raise ValueError("Неизвестная ошибка: ", str(e))
+
+
+
     def get_order_by_id_with_items(self, order_id: int):  #"-> Optional[MediaSet]:
         order: Order = (self.db.query(Order)
                                        .options(joinedload(Order.manager))
@@ -50,9 +73,7 @@ class OrderRepository:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Заявка с id={order_id} не найдена"
             )
-
        # position_sum = sum(item.price_per_unit * item.quantity for item in order.order_items)
-
         return OrderMapper.to_dto_response_tableEdit(order)
 
     def get_order_with_pg_table(self, skip: int = 0, limit: int = 10):
